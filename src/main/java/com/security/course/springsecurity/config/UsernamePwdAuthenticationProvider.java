@@ -1,6 +1,8 @@
 package com.security.course.springsecurity.config;
 
+import com.security.course.springsecurity.model.Authority;
 import com.security.course.springsecurity.model.Customer;
+import com.security.course.springsecurity.repository.AuthoritiesRepository;
 import com.security.course.springsecurity.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -22,6 +24,8 @@ public class UsernamePwdAuthenticationProvider implements AuthenticationProvider
 
     private final CustomerRepository customerRepository;
 
+    private final AuthoritiesRepository authoritiesRepository;
+
     private final PasswordEncoder passwordEncoder;
 
     @Override
@@ -31,15 +35,22 @@ public class UsernamePwdAuthenticationProvider implements AuthenticationProvider
         List<Customer> customer = customerRepository.findByEmail(userName);
         if (!customer.isEmpty()) {
             if (passwordEncoder.matches(pwd, customer.get(0).getPwd())) {
-                List<GrantedAuthority> authorities = new ArrayList<>();
-                authorities.add(new SimpleGrantedAuthority(customer.get(0).getRole()));
-                return new UsernamePasswordAuthenticationToken(userName, pwd, authorities);
+                return new UsernamePasswordAuthenticationToken(userName, pwd,
+                        getGrantedAuthorities(authoritiesRepository.findAllByCustomerId(customer.get(0).getId())));
             } else {
                 throw new BadCredentialsException("Invalid password");
             }
         } else {
             throw new BadCredentialsException("No user registered with this details!");
         }
+    }
+
+    private List<GrantedAuthority> getGrantedAuthorities(List<Authority> authorities) {
+        List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
+        for (Authority authority : authorities) {
+            grantedAuthorities.add(new SimpleGrantedAuthority(authority.getName()));
+        }
+        return grantedAuthorities;
     }
 
     @Override

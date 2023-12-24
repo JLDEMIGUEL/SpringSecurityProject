@@ -1,6 +1,9 @@
 package com.security.course.springsecurity.config;
 
-import com.security.course.springsecurity.filter.CsrfCookieFilter;
+import com.security.course.springsecurity.config.filter.AuthoritiesLoggingAfterFilter;
+import com.security.course.springsecurity.config.filter.AuthoritiesLoggingAtFilter;
+import com.security.course.springsecurity.config.filter.CsrfCookieFilter;
+import com.security.course.springsecurity.config.filter.RequestValidationBeforeFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -25,7 +28,11 @@ public class SecurityConfig {
         handler.setCsrfRequestAttributeName("_csrf");
 
         http.authorizeHttpRequests(requests -> requests
-                        .requestMatchers("/myAccount", "/myBalance", "/myLoans", "/myCards", "/user").authenticated()
+                        .requestMatchers("/myAccount").hasRole("USER")
+                        .requestMatchers("/myBalance").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/myLoans").hasRole("USER")
+                        .requestMatchers("/myCards").hasRole("USER")
+                        .requestMatchers("/user").authenticated()
                         .requestMatchers("/notices", "/contact", "/register").permitAll())
                 .formLogin(Customizer.withDefaults())
                 .httpBasic(Customizer.withDefaults())
@@ -43,7 +50,10 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.csrfTokenRequestHandler(handler)
                         .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                         .ignoringRequestMatchers("/contact", "/register"))
-                .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class);
+                .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class)
+                .addFilterBefore(new RequestValidationBeforeFilter(), BasicAuthenticationFilter.class)
+                .addFilterAt(new AuthoritiesLoggingAtFilter(), BasicAuthenticationFilter.class)
+                .addFilterAfter(new AuthoritiesLoggingAfterFilter(), BasicAuthenticationFilter.class);
         return http.build();
     }
 

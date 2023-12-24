@@ -1,9 +1,12 @@
 package com.security.course.springsecurity.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
+
+import java.util.Set;
 
 @Entity
 @Data
@@ -29,4 +32,8 @@ public class Customer {
 
     @Column(name = "create_dt")
     private String createDt;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER)
+    private Set<Authority> authorities;
 }

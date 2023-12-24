@@ -1,4 +1,4 @@
-package com.security.course.springsecurity.filter;
+package com.security.course.springsecurity.config.filter;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
