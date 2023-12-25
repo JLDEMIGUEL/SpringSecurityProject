@@ -14,7 +14,7 @@ import java.util.Base64;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 
-public class RequestValidationBeforeFilter  implements Filter {
+public class RequestValidationBeforeFilter implements Filter {
 
     public static final String AUTHENTICATION_SCHEME_BASIC = "Basic";
     private final Charset credentialsCharset = StandardCharsets.UTF_8;
