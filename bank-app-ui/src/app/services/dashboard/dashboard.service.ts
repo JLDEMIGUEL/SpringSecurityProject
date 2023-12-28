@@ -12,29 +12,29 @@ export class DashboardService {
     constructor(private http: HttpClient) {
     }
 
-    getAccountDetails(id: number) {
-        return this.http.get(environment.rooturl + AppConstants.ACCOUNT_API_URL + "?id=" + id, {
+    getAccountDetails(email: String) {
+        return this.http.get(environment.rooturl + AppConstants.ACCOUNT_API_URL + "?email=" + email, {
             observe: 'response',
             withCredentials: true
         });
     }
 
-    getAccountTransactions(id: number) {
-        return this.http.get(environment.rooturl + AppConstants.BALANCE_API_URL + "?id=" + id, {
+    getAccountTransactions(email: String) {
+        return this.http.get(environment.rooturl + AppConstants.BALANCE_API_URL + "?email=" + email, {
             observe: 'response',
             withCredentials: true
         });
     }
 
-    getLoansDetails(id: number) {
-        return this.http.get(environment.rooturl + AppConstants.LOANS_API_URL + "?id=" + id, {
+    getLoansDetails(email: String) {
+        return this.http.get(environment.rooturl + AppConstants.LOANS_API_URL + "?email=" + email, {
             observe: 'response',
             withCredentials: true
         });
     }
 
-    getCardsDetails(id: number) {
-        return this.http.get(environment.rooturl + AppConstants.CARDS_API_URL + "?id=" + id, {
+    getCardsDetails(email: String) {
+        return this.http.get(environment.rooturl + AppConstants.CARDS_API_URL + "?email=" + email, {
             observe: 'response',
             withCredentials: true
         });
@@ -45,8 +45,8 @@ export class DashboardService {
     }
 
     saveMessage(contact: Contact) {
-        let contacts = []
-        contacts.push(contact)
+        var contacts = [];
+        contacts.push(contact);
         return this.http.post(environment.rooturl + AppConstants.CONTACT_API_URL, contacts, {observe: 'response'});
     }
 

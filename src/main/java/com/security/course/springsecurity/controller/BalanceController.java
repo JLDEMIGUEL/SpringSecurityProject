@@ -26,7 +26,7 @@ public class BalanceController {
         if (customers != null && !customers.isEmpty()) {
             List<AccountTransactions> accountTransactions = accountTransactionsRepository.
                     findByCustomerIdOrderByTransactionDtDesc(customers.get(0).getId());
-            if (accountTransactions != null ) {
+            if (accountTransactions != null) {
                 return accountTransactions;
             }
         }

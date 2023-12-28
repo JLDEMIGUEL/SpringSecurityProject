@@ -33,7 +33,7 @@ public class SecurityConfig {
                         .requestMatchers("/myCards").hasRole("USER")
                         .requestMatchers("/user").authenticated()
                         .requestMatchers("/notices", "/contact", "/register").permitAll())
-                .oauth2ResourceServer(oauth2Config ->oauth2Config.jwt(
+                .oauth2ResourceServer(oauth2Config -> oauth2Config.jwt(
                         jwtConfig -> jwtConfig.jwtAuthenticationConverter(jwtAuthenticationConverter)))
                 .sessionManagement(sessionManager -> sessionManager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .cors(cors -> cors.configurationSource(request -> {

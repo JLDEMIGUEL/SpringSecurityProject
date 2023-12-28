@@ -34,29 +34,32 @@
                     </div>
                 </div>
                 <div class="map-content-9">
-                    <span *ngIf="model.contactId"
-                          class="text-success">Your message is submitted. Reference ID is {{model.contactId}}</span>
+          <span *ngIf="model.contactId"
+                class="text-success">Your message is submitted. Reference ID is {{model.contactId}}</span>
                     <form #contactForm="ngForm" (ngSubmit)="contactForm.valid && saveMessage(contactForm)">
                         <div class="twice">
-                            <input #contactName="ngModel" [(ngModel)]="model.contactName" class="form-control" id="contactName"
+                            <input #contactName="ngModel" [(ngModel)]="model.contactName" class="form-control"
+                                   id="contactName"
                                    name="contactName" placeholder="Name"
                                    required type="text">
                             <span *ngIf="(contactName.touched || contactForm.submitted) &&
               contactName.errors?.['required']" class="text-danger">Error : Name is required !</span>
                         </div>
                         <div class="twice">
-                            <input #contactEmail="ngModel" [(ngModel)]="model.contactEmail" class="form-control" id="contactEmail"
+                            <input #contactEmail="ngModel" [(ngModel)]="model.contactEmail" class="form-control"
+                                   id="contactEmail"
                                    name="contactEmail"
-                                   pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" placeholder="Email"
-                                   required
+                                   pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" placeholder="Email" required
                                    type="email">
                             <span *ngIf="(contactEmail.touched || contactForm.submitted) &&
                 contactEmail.errors?.['required']" class="text-danger">Error : Email is required !</span>
                             <span *ngIf="(contactEmail.touched || contactForm.submitted) &&
-              contactEmail.errors?.['pattern']" class="text-danger">Error : Please provide a valid email address !</span>
+              contactEmail.errors?.['pattern']"
+                                  class="text-danger">Error : Please provide a valid email address !</span>
                         </div>
                         <div class="twice">
-                            <input #subject="ngModel" [(ngModel)]="model.subject" class="form-control" id="subject" name="subject"
+                            <input #subject="ngModel" [(ngModel)]="model.subject" class="form-control" id="subject"
+                                   name="subject"
                                    placeholder="Subject"
                                    required type="text">
                             <span *ngIf="(subject.touched || contactForm.submitted) &&

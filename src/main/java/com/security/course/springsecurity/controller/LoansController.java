@@ -25,7 +25,7 @@ public class LoansController {
         List<Customer> customers = customerRepository.findByEmail(email);
         if (customers != null && !customers.isEmpty()) {
             List<Loans> loans = loanRepository.findByCustomerIdOrderByStartDtDesc(customers.get(0).getId());
-            if (loans != null ) {
+            if (loans != null) {
                 return loans;
             }
         }
